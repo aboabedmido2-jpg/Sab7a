@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السبحة الإلكترونية | تسبيح وأذكار</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
 
+        body {
+            background: linear-gradient(145deg, #0a2f2a 0%, #06322e 100%);
+            font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        /* الحاوية الرئيسية */
+        .tasbeeh-container {
+            max-width: 550px;
+            width: 100%;
+            background: rgba(255,248,225,0.95);
+            border-radius: 64px 64px 48px 48px;
+            box-shadow: 0 25px 45px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.6);
+            overflow: hidden;
+            backdrop-filter: blur(2px);
+        }
+
+        /* التابات (الألسنة) */
+        .tabs {
+            display: flex;
+            background: #2c5a4b;
+            gap: 6px;
+            padding: 12px 16px 0 16px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: #1e3e35;
+            border: none;
+            padding: 12px 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #cfd9c7;
+            cursor: pointer;
+            border-radius: 28px 28px 16px 16px;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+
+        .tab-btn.active {
+            background: #f9e7c2;
+            color: #1f4e3f;
+            box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* محتوى التابات */
+        .tab-content {
+            display: none;
+            padding: 28px 22px 38px;
+            animation: fade 0.25s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(6px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+
+        /* تسبيح */
+        .counter-area {
+            text-align: center;
+        }
+
+        .display-count {
+            font-size: 5.8rem;
+            font-weight: 800;
+            background: #1e2e2a;
+            display: inline-block;
+            width: 220px;
+            padding: 0.25rem 0;
+            border-radius: 80px;
+            color: #fad974;
+            letter-spacing: 6px;
+            margin: 20px 0;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.4), 0 4px 6px rgba(255,215,140,0.3);
+        }
+
+        .tasbeeh-bead {
+            background: radial-gradient(circle at 35% 30%, #c7aa6b, #9b7a42);
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            margin: 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3), inset 0 -4px 0 #5e3e1a;
+            transition: 0.05s linear;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff3cf;
+        }
+
+        .tasbeeh-bead:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 12px black;
+        }
+
+        .reset-btn {
+            background: #4b3b2c;
+            border: none;
+            padding: 12px 32px;
+            font-size: 1.2rem;
+            border-radius: 60px;
+            color: #ffefbf;
+            font-weight: bold;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .reset-btn:active {
+            transform: scale(0.97);
+            background: #2f241b;
+        }
+
+        /* قسم الأذكار */
+        .dhikr-list {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            max-height: 420px;
+            overflow-y: auto;
+            padding-left: 6px;
+        }
+
+        .dhikr-card {
+            background: #fff8ed;
+            border-right: 8px solid #c2a15b;
+            padding: 14px 20px;
+            border-radius: 36px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .dhikr-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c3a2b;
+            flex: 2;
+        }
+
+        .count-badge {
+            background: #2c5a4b;
+            padding: 8px 14px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .inc-dhikr {
+            background: #dbb45c;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 40px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.05s linear;
+        }
+
+        .inc-dhikr:active {
+            transform: scale(0.94);
+        }
+
+        /* footer */
+        .credit {
+            text-align: center;
+            background: #1d3a32;
+            padding: 12px;
+            color: #bbaa7f;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+<div class="tasbeeh-container">
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-tasbeeh">📿 السبحة</button>
+        <button class="tab-btn" data-tab="tab-morning">☀️ أذكار الصباح</button>
+        <button class="tab-btn" data-tab="tab-evening">🌙 أذكار المساء</button>
+        <button class="tab-btn" data-tab="tab-dua">🤲 أدعية</button>
+    </div>
+
+    <!-- 1 - السبحة الرئيسية -->
+    <div id="tab-tasbeeh" class="tab-content active">
+        <div class="counter-area">
+            <div class="display-count" id="counterValue">0</div>
+            <div class="tasbeeh-bead" id="beadTap">🤲 سبحان الله</div>
+            <div><button class="reset-btn" id="resetCounter">إعادة تعيين</button></div>
+        </div>
+    </div>
+
+    <!-- 2 - أذكار الصباح -->
+    <div id="tab-morning" class="tab-content">
+        <div class="dhikr-list" id="morningList"></div>
+    </div>
+
+    <!-- 3 - أذكار المساء -->
+    <div id="tab-evening" class="tab-content">
+        <div class="dhikr-list" id="eveningList"></div>
+    </div>
+
+    <!-- 4 - أدعية + أذكار عامة -->
+    <div id="tab-dua" class="tab-content">
+        <div class="dhikr-list" id="duaList"></div>
+    </div>
+    <div class="credit">الذكرى لله | سبحة رقمية 2099</div>
+</div>
+
+<script>
+    // ---------- بيانات الأذكار ----------
+    const morningAdhkar = [
+        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 0 },
+        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الإِسْلاَمِ", count: 0 },
+        { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا", count: 0 },
+        { text: "سُبْحَانَ اللَّهِ العَظِيمِ وَبِحَمْدِهِ", count: 0 },
+        { text: "لا إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ", count: 0 }
+    ];
+
+    const eveningAdhkar = [
+        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الإِسْلاَمِ", count: 0 },
+        { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا", count: 0 },
+        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ", count: 0 },
+        { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", count: 0 },
+        { text: "حَسْبِيَ اللَّهُ لا إِلَهَ إِلاَّ هُوَ", count: 0 }
+    ];
+
+    const duaList = [
+        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً", count: 0 },
+        { text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي", count: 0 },
+        { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ", count: 0 },
+        { text: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", count: 0 },
+        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ", count: 0 }
+    ];
+
+    // تخزين حالات العداد لكل قسم
+    let tasbeehCount = 0;
+    let morningState = morningAdhkar.map(d => ({ ...d }));
+    let eveningState = eveningAdhkar.map(d => ({ ...d }));
+    let duaState = duaList.map(d => ({ ...d }));
+
+    // DOM Elements
+    const counterDisplay = document.getElementById('counterValue');
+    const bead = document.getElementById('beadTap');
+    const resetBtn = document.getElementById('resetCounter');
+
+    // تحديث واجهة السبحة
+    function updateTasbeehUI() {
+        counterDisplay.innerText = tasbeehCount;
+    }
+
+    // عرض قائمة الأذكار ديناميكياً
+    function renderList(containerId, dataArray, typeId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        container.innerHTML = '';
+        dataArray.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'dhikr-card';
+            card.innerHTML = `
+                <span class="dhikr-text">${item.text}</span>
+                <span class="count-badge" id="${typeId}-badge-${idx}">${item.count}</span>
+                <button class="inc-dhikr" data-type="${typeId}" data-index="${idx}">➕ ذكر</button>
+            `;
+            container.appendChild(card);
+        });
+
+        // إضافة الأحداث للأزرار
+        document.querySelectorAll(`.inc-dhikr[data-type="${typeId}"]`).forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const typ = btn.getAttribute('data-type');
+                const idx = parseInt(btn.getAttribute('data-index'));
+                if (typ === 'morning') {
+                    morningState[idx].count++;
+                    document.getElementById(`morning-badge-${idx}`).innerText = morningState[idx].count;
+                } else if (typ === 'evening') {
+                    eveningState[idx].count++;
+                    document.getElementById(`evening-badge-${idx}`).innerText = eveningState[idx].count;
+                } else if (typ === 'dua') {
+                    duaState[idx].count++;
+                    document.getElementById(`dua-badge-${idx}`).innerText = duaState[idx].count;
+                }
+            });
+        });
+    }
+
+    // تحديث جميع القوائم
+    function refreshAllLists() {
+        renderList('morningList', morningState, 'morning');
+        renderList('eveningList', eveningState, 'evening');
+        renderList('duaList', duaState, 'dua');
+    }
+
+    // التبديل بين التابات
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+    }
+
+    // --- events ---
+    bead.addEventListener('click', () => {
+        tasbeehCount++;
+        updateTasbeehUI();
+        // تأثير نقر اهتزازي بسيط (بروحي)
+        bead.style.transform = 'scale(0.96)';
+        setTimeout(() => { bead.style.transform = ''; }, 70);
+    });
+
+    resetBtn.addEventListener('click', () => {
+        tasbeehCount = 0;
+        updateTasbeehUI();
+    });
+
+    // ربط التابات
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetTab = btn.getAttribute('data-tab');
+            if (targetTab) switchTab(targetTab);
+        });
+    });
+
+    // إعادة تعيين كل العدادات للأذكار لو حبيت (اختياري: زر خفي) ، لكن رضاً نضيف اعادة ضبط سريعة للسبحة فقط.
+    // تحميل اولي
+    refreshAllLists();
+    updateTasbeehUI();
+</script>
+</body>
+      </html>
