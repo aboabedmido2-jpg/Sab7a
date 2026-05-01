@@ -2,358 +2,468 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>السبحة الإلكترونية | تسبيح وأذكار</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>تسبيحة النور | السّبحة الإلكترونية الفريدة</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
         }
 
         body {
-            background: linear-gradient(145deg, #0a2f2a 0%, #06322e 100%);
-            font-family: 'Segoe UI', 'Tahoma', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a1f1a 0%, #0c2b21 50%, #071712 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 1rem;
+            font-family: 'Segoe UI', 'Amiri', 'Tahoma', 'Times New Roman', serif;
+            padding: 1.5rem;
+            position: relative;
         }
 
-        /* الحاوية الرئيسية */
-        .tasbeeh-container {
-            max-width: 550px;
+        /* زخرفة إسلامية خلفية */
+        body::before {
+            content: "﷽";
+            position: fixed;
+            font-size: 18vw;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: rgba(218, 165, 32, 0.03);
+            pointer-events: none;
+            font-family: 'Traditional Arabic', 'Amiri', serif;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.08) 1.5px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* الحاوية الأساسية - قبة إسلامية */
+        .islamic-masterpiece {
+            position: relative;
+            z-index: 10;
             width: 100%;
-            background: rgba(255,248,225,0.95);
-            border-radius: 64px 64px 48px 48px;
-            box-shadow: 0 25px 45px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.6);
+            max-width: 620px;
+            background: rgba(13, 27, 23, 0.75);
+            backdrop-filter: blur(18px);
+            border-radius: 85px 85px 65px 65px;
+            box-shadow: 0 40px 65px rgba(0,0,0,0.5), inset 0 1px 2px rgba(255,215,0,0.3), 0 0 0 2px rgba(212, 175, 55, 0.3);
             overflow: hidden;
-            backdrop-filter: blur(2px);
+            border: 1px solid rgba(212, 175, 55, 0.5);
         }
 
-        /* التابات (الألسنة) */
-        .tabs {
+        /* الهلال والنجمة */
+        .crescent {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.9rem;
+            filter: drop-shadow(0 0 6px gold);
+            text-shadow: 0 0 8px #ffd966;
+            z-index: 25;
+            background: rgba(10,25,20,0.7);
+            border-radius: 100px;
+            padding: 0 15px;
+            color: #f5cb5c;
+        }
+
+        /* رؤوس التابات بلمسة عربية */
+        .tabs-royal {
             display: flex;
-            background: #2c5a4b;
-            gap: 6px;
-            padding: 12px 16px 0 16px;
+            background: #0e2a22;
+            padding: 18px 12px 0 12px;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 2px solid #d4af37;
         }
 
-        .tab-btn {
+        .islamic-tab {
             flex: 1;
-            background: #1e3e35;
-            border: none;
-            padding: 12px 8px;
-            font-size: 1rem;
+            min-width: 90px;
+            background: rgba(0,0,0,0.55);
+            border: 1px solid #c9a03d;
+            padding: 12px 6px;
+            font-size: 0.9rem;
             font-weight: bold;
-            color: #cfd9c7;
+            font-family: 'Amiri', 'Segoe UI', serif;
+            color: #ecd9b4;
             cursor: pointer;
-            border-radius: 28px 28px 16px 16px;
-            transition: 0.2s;
-            font-family: inherit;
+            border-radius: 45px 45px 25px 25px;
+            transition: all 0.2s;
+            letter-spacing: 1px;
+            backdrop-filter: blur(4px);
         }
 
-        .tab-btn.active {
-            background: #f9e7c2;
-            color: #1f4e3f;
-            box-shadow: 0 -4px 8px rgba(0,0,0,0.1);
+        .islamic-tab.active {
+            background: radial-gradient(ellipse at top, #f7e5b5, #cfb053);
+            color: #0a2b1f;
+            border-color: #f8d568;
+            box-shadow: 0 -6px 12px rgba(0,0,0,0.2), inset 0 1px 2px #fff2ce;
+            text-shadow: 0 0 2px gold;
         }
 
-        /* محتوى التابات */
-        .tab-content {
+        /* محتوى ذهبي */
+        .gold-content {
             display: none;
-            padding: 28px 22px 38px;
-            animation: fade 0.25s ease;
+            padding: 28px 18px 40px;
+            animation: fadeInUp 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
-        .tab-content.active {
+        .gold-content.active {
             display: block;
         }
 
-        @keyframes fade {
-            from { opacity: 0; transform: translateY(6px);}
-            to { opacity: 1; transform: translateY(0);}
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(14px);}
+            100% { opacity: 1; transform: translateY(0);}
         }
 
-        /* تسبيح */
-        .counter-area {
+        /* تصميم السبحة - حبات ذهبية ثلاثية الأبعاد */
+        .tasbeeh-core {
             text-align: center;
         }
 
-        .display-count {
-            font-size: 5.8rem;
-            font-weight: 800;
-            background: #1e2e2a;
-            display: inline-block;
-            width: 220px;
-            padding: 0.25rem 0;
-            border-radius: 80px;
-            color: #fad974;
-            letter-spacing: 6px;
-            margin: 20px 0;
-            box-shadow: inset 0 4px 8px rgba(0,0,0,0.4), 0 4px 6px rgba(255,215,140,0.3);
+        .tasbeeh-title {
+            font-size: 1.5rem;
+            color: #f7e2b0;
+            font-weight: bold;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #e4c580, #b58d3a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
 
-        .tasbeeh-bead {
-            background: radial-gradient(circle at 35% 30%, #c7aa6b, #9b7a42);
-            width: 130px;
-            height: 130px;
+        .counter-gold {
+            font-size: 5.2rem;
+            font-weight: 900;
+            background: #071d18;
+            display: inline-block;
+            padding: 0.2rem 1.6rem;
+            border-radius: 80px;
+            color: #fad15e;
+            font-family: monospace;
+            letter-spacing: 8px;
+            margin: 15px 0;
+            border: 1px solid #d4b85c;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.7), 0 8px 14px black;
+        }
+
+        .bead-oriental {
+            background: radial-gradient(circle at 35% 35%, #f3cf7a, #bd913f);
+            width: 155px;
+            height: 155px;
+            margin: 15px auto;
             border-radius: 50%;
-            margin: 16px auto;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.3), inset 0 -4px 0 #5e3e1a;
-            transition: 0.05s linear;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5), inset 0 -8px 0 #6f511f, inset 0 2px 10px rgba(255,245,190,0.8);
+            transition: all 0.03s linear;
             font-size: 2rem;
             font-weight: bold;
-            color: #fff3cf;
+            color: #2a2b0e;
+            text-shadow: 0 1px 2px #ffeecc;
+            flex-direction: column;
         }
 
-        .tasbeeh-bead:active {
-            transform: scale(0.96);
-            box-shadow: 0 4px 12px black;
+        .bead-oriental:active {
+            transform: scale(0.94);
+            box-shadow: inset 0 5px 12px #4f3a18;
         }
 
-        .reset-btn {
-            background: #4b3b2c;
-            border: none;
-            padding: 12px 32px;
-            font-size: 1.2rem;
+        .small-bead-text {
+            font-size: 0.9rem;
+            margin-top: 6px;
+            color: #2f2412;
+        }
+
+        .reset-gold {
+            background: #2f2a1f;
+            border: 1px solid #c8a233;
+            padding: 10px 36px;
             border-radius: 60px;
-            color: #ffefbf;
+            font-size: 1rem;
             font-weight: bold;
-            margin-top: 20px;
+            color: #f7e4bb;
+            margin-top: 25px;
             cursor: pointer;
             transition: 0.1s;
         }
 
-        .reset-btn:active {
-            transform: scale(0.97);
-            background: #2f241b;
+        .reset-gold:active {
+            transform: scale(0.96);
+            background: #1f1b12;
         }
 
-        /* قسم الأذكار */
-        .dhikr-list {
+        /* قائمة الأذكار بروحانية عالية */
+        .dhikr-premium {
             display: flex;
             flex-direction: column;
-            gap: 18px;
-            max-height: 420px;
+            gap: 20px;
+            max-height: 460px;
             overflow-y: auto;
-            padding-left: 6px;
+            padding-left: 5px;
         }
 
-        .dhikr-card {
-            background: #fff8ed;
-            border-right: 8px solid #c2a15b;
-            padding: 14px 20px;
-            border-radius: 36px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            font-size: 1.1rem;
+        .dhikr-premium::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .dhikr-premium::-webkit-scrollbar-track {
+            background: #1b342c;
+            border-radius: 10px;
+        }
+
+        .dhikr-premium::-webkit-scrollbar-thumb {
+            background: #e5ba5e;
+            border-radius: 10px;
+        }
+
+        .dhikr-card-islamic {
+            background: linear-gradient(115deg, #182d26, #0f231d);
+            border-right: 6px solid #efc46e;
+            padding: 18px 20px;
+            border-radius: 48px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 14px;
+            transition: 0.1s;
         }
 
-        .dhikr-text {
+        .dhikr-text-ar {
             font-size: 1.2rem;
-            font-weight: 500;
-            color: #2c3a2b;
+            font-weight: 600;
+            color: #fef1cf;
+            font-family: 'Amiri', 'Times New Roman', serif;
+            line-height: 1.5;
             flex: 2;
         }
 
-        .count-badge {
-            background: #2c5a4b;
-            padding: 8px 14px;
-            border-radius: 50px;
-            color: white;
+        .counter-islamic-badge {
+            background: #00000070;
+            backdrop-filter: blur(4px);
+            padding: 8px 18px;
+            border-radius: 80px;
             font-weight: bold;
+            font-size: 1.2rem;
+            color: #f7d166;
+            font-family: monospace;
+            border: 1px solid #d0ab54;
         }
 
-        .inc-dhikr {
-            background: #dbb45c;
+        .btn-dhikr-gold {
+            background: #dbaa44;
             border: none;
-            padding: 8px 18px;
-            border-radius: 40px;
+            padding: 8px 24px;
+            border-radius: 60px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             transition: 0.05s linear;
+            color: #202010;
+            font-family: inherit;
         }
 
-        .inc-dhikr:active {
-            transform: scale(0.94);
+        .btn-dhikr-gold:active {
+            transform: scale(0.93);
+            background: #b8862c;
         }
 
-        /* footer */
-        .credit {
+        /* توقيع أنيق */
+        .islamic-footer {
             text-align: center;
-            background: #1d3a32;
-            padding: 12px;
-            color: #bbaa7f;
+            background: #061812cc;
+            padding: 14px;
             font-size: 0.75rem;
+            color: #cfbc86;
+            border-top: 0.5px solid #cfb051;
+            font-family: 'Amiri', serif;
+        }
+
+        @media (max-width: 520px) {
+            .islamic-tab { font-size: 0.7rem; min-width: 70px; padding: 8px 3px;}
+            .bead-oriental { width: 120px; height: 120px; font-size: 1.5rem; }
+            .counter-gold { font-size: 3.5rem; letter-spacing: 4px; }
+            .dhikr-text-ar { font-size: 1rem; }
         }
     </style>
 </head>
 <body>
-<div class="tasbeeh-container">
-    <div class="tabs">
-        <button class="tab-btn active" data-tab="tab-tasbeeh">📿 السبحة</button>
-        <button class="tab-btn" data-tab="tab-morning">☀️ أذكار الصباح</button>
-        <button class="tab-btn" data-tab="tab-evening">🌙 أذكار المساء</button>
-        <button class="tab-btn" data-tab="tab-dua">🤲 أدعية</button>
+<div class="islamic-masterpiece">
+    <div class="crescent">☪️ تسبيحة النور ☪️</div>
+    <div class="tabs-royal">
+        <button class="islamic-tab active" data-tab="tasbeeh-tab">📿 السّبحة الذهبية</button>
+        <button class="islamic-tab" data-tab="morning-tab">🌤️ أذكار الصباح</button>
+        <button class="islamic-tab" data-tab="evening-tab">🌙 أذكار المساء</button>
+        <button class="islamic-tab" data-tab="dua-tab">🤲 جوامع الدعاء</button>
     </div>
 
-    <!-- 1 - السبحة الرئيسية -->
-    <div id="tab-tasbeeh" class="tab-content active">
-        <div class="counter-area">
-            <div class="display-count" id="counterValue">0</div>
-            <div class="tasbeeh-bead" id="beadTap">🤲 سبحان الله</div>
-            <div><button class="reset-btn" id="resetCounter">إعادة تعيين</button></div>
+    <!-- السبحة -->
+    <div id="tasbeeh-tab" class="gold-content active">
+        <div class="tasbeeh-core">
+            <div class="tasbeeh-title">• سُبْحَانَ اللَّهِ •</div>
+            <div class="counter-gold" id="tasbeehCounterUI">0</div>
+            <div class="bead-oriental" id="gloriousBead">
+                <span>🤲</span>
+                <span class="small-bead-text">إضغط للتسبيح</span>
+            </div>
+            <button class="reset-gold" id="resetTasbeehBtn">⟳ تجديد العداد</button>
         </div>
     </div>
 
-    <!-- 2 - أذكار الصباح -->
-    <div id="tab-morning" class="tab-content">
-        <div class="dhikr-list" id="morningList"></div>
+    <!-- أذكار الصباح -->
+    <div id="morning-tab" class="gold-content">
+        <div class="dhikr-premium" id="morningContainer"></div>
     </div>
 
-    <!-- 3 - أذكار المساء -->
-    <div id="tab-evening" class="tab-content">
-        <div class="dhikr-list" id="eveningList"></div>
+    <!-- أذكار المساء -->
+    <div id="evening-tab" class="gold-content">
+        <div class="dhikr-premium" id="eveningContainer"></div>
     </div>
 
-    <!-- 4 - أدعية + أذكار عامة -->
-    <div id="tab-dua" class="tab-content">
-        <div class="dhikr-list" id="duaList"></div>
+    <!-- أدعية -->
+    <div id="dua-tab" class="gold-content">
+        <div class="dhikr-premium" id="duaContainer"></div>
     </div>
-    <div class="credit">الذكرى لله | سبحة رقمية 2099</div>
+    <div class="islamic-footer">﴿ وَالذَّاكِرِينَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ ﴾</div>
 </div>
 
 <script>
-    // ---------- بيانات الأذكار ----------
+    // ======================== بيانات إسلامية أصيلة ========================
     const morningAdhkar = [
         { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 0 },
-        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الإِسْلاَمِ", count: 0 },
-        { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا", count: 0 },
-        { text: "سُبْحَانَ اللَّهِ العَظِيمِ وَبِحَمْدِهِ", count: 0 },
-        { text: "لا إِلَهَ إِلاَّ اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ", count: 0 }
+        { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا", count: 0 },
+        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الإِسْلَامِ وَكَلِمَةِ الإِخْلَاصِ", count: 0 },
+        { text: "رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا", count: 0 },
+        { text: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ", count: 0 },
+        { text: "سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ", count: 0 }
     ];
 
     const eveningAdhkar = [
-        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الإِسْلاَمِ", count: 0 },
-        { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا", count: 0 },
-        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ", count: 0 },
+        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },
+        { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ نَحْيَا", count: 0 },
+        { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", count: 0 },
         { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", count: 0 },
-        { text: "حَسْبِيَ اللَّهُ لا إِلَهَ إِلاَّ هُوَ", count: 0 }
+        { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ", count: 0 }
     ];
 
-    const duaList = [
-        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً", count: 0 },
-        { text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي", count: 0 },
-        { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ", count: 0 },
-        { text: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", count: 0 },
-        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَآلِ مُحَمَّدٍ", count: 0 }
+    const duaCollection = [
+        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً", count: 0 },
+        { text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي وَاهْدِنِي", count: 0 },
+        { text: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ", count: 0 },
+        { text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", count: 0 },
+        { text: "اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ", count: 0 }
     ];
 
-    // تخزين حالات العداد لكل قسم
-    let tasbeehCount = 0;
-    let morningState = morningAdhkar.map(d => ({ ...d }));
-    let eveningState = eveningAdhkar.map(d => ({ ...d }));
-    let duaState = duaList.map(d => ({ ...d }));
+    let tasbeehMain = 0;
 
-    // DOM Elements
-    const counterDisplay = document.getElementById('counterValue');
-    const bead = document.getElementById('beadTap');
-    const resetBtn = document.getElementById('resetCounter');
+    // نسخ متابعة الحالة
+    let morningState = morningAdhkar.map(item => ({ ...item }));
+    let eveningState = eveningAdhkar.map(item => ({ ...item }));
+    let duaState = duaCollection.map(item => ({ ...item }));
 
-    // تحديث واجهة السبحة
+    // دوال مساعدة
     function updateTasbeehUI() {
-        counterDisplay.innerText = tasbeehCount;
+        document.getElementById('tasbeehCounterUI').innerText = tasbeehMain;
     }
 
-    // عرض قائمة الأذكار ديناميكياً
-    function renderList(containerId, dataArray, typeId) {
+    function renderIslamicList(containerId, dataArray, typePrefix) {
         const container = document.getElementById(containerId);
         if (!container) return;
         container.innerHTML = '';
         dataArray.forEach((item, idx) => {
             const card = document.createElement('div');
-            card.className = 'dhikr-card';
+            card.className = 'dhikr-card-islamic';
             card.innerHTML = `
-                <span class="dhikr-text">${item.text}</span>
-                <span class="count-badge" id="${typeId}-badge-${idx}">${item.count}</span>
-                <button class="inc-dhikr" data-type="${typeId}" data-index="${idx}">➕ ذكر</button>
+                <div class="dhikr-text-ar">📿 ${item.text}</div>
+                <div class="counter-islamic-badge" id="${typePrefix}-badge-${idx}">${item.count}</div>
+                <button class="btn-dhikr-gold" data-type="${typePrefix}" data-idx="${idx}">➕ تسبيحة</button>
             `;
             container.appendChild(card);
         });
 
-        // إضافة الأحداث للأزرار
-        document.querySelectorAll(`.inc-dhikr[data-type="${typeId}"]`).forEach(btn => {
+        // attach events
+        document.querySelectorAll(`.btn-dhikr-gold[data-type="${typePrefix}"]`).forEach(btn => {
             btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const typ = btn.getAttribute('data-type');
-                const idx = parseInt(btn.getAttribute('data-index'));
-                if (typ === 'morning') {
-                    morningState[idx].count++;
-                    document.getElementById(`morning-badge-${idx}`).innerText = morningState[idx].count;
-                } else if (typ === 'evening') {
-                    eveningState[idx].count++;
-                    document.getElementById(`evening-badge-${idx}`).innerText = eveningState[idx].count;
-                } else if (typ === 'dua') {
-                    duaState[idx].count++;
-                    document.getElementById(`dua-badge-${idx}`).innerText = duaState[idx].count;
+                const pType = btn.getAttribute('data-type');
+                const index = parseInt(btn.getAttribute('data-idx'));
+                if (pType === 'morning') {
+                    morningState[index].count++;
+                    document.getElementById(`morning-badge-${index}`).innerText = morningState[index].count;
+                } else if (pType === 'evening') {
+                    eveningState[index].count++;
+                    document.getElementById(`evening-badge-${index}`).innerText = eveningState[index].count;
+                } else if (pType === 'dua') {
+                    duaState[index].count++;
+                    document.getElementById(`dua-badge-${index}`).innerText = duaState[index].count;
                 }
+                // إضافة تأثير صوتي رمزي (اهتزاز الزر)
+                btn.style.transform = 'scale(0.92)';
+                setTimeout(() => btn.style.transform = '', 80);
             });
         });
     }
 
-    // تحديث جميع القوائم
-    function refreshAllLists() {
-        renderList('morningList', morningState, 'morning');
-        renderList('eveningList', eveningState, 'evening');
-        renderList('duaList', duaState, 'dua');
+    function refreshAllIslamic() {
+        renderIslamicList('morningContainer', morningState, 'morning');
+        renderIslamicList('eveningContainer', eveningState, 'evening');
+        renderIslamicList('duaContainer', duaState, 'dua');
     }
 
-    // التبديل بين التابات
-    function switchTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    // Eventos التابات
+    function activateTab(tabId) {
+        document.querySelectorAll('.gold-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.islamic-tab').forEach(btn => btn.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+        document.querySelector(`.islamic-tab[data-tab="${tabId}"]`).classList.add('active');
     }
 
-    // --- events ---
-    bead.addEventListener('click', () => {
-        tasbeehCount++;
-        updateTasbeehUI();
-        // تأثير نقر اهتزازي بسيط (بروحي)
-        bead.style.transform = 'scale(0.96)';
-        setTimeout(() => { bead.style.transform = ''; }, 70);
-    });
-
-    resetBtn.addEventListener('click', () => {
-        tasbeehCount = 0;
-        updateTasbeehUI();
-    });
-
-    // ربط التابات
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetTab = btn.getAttribute('data-tab');
-            if (targetTab) switchTab(targetTab);
+    // ربط أزرار التابات
+    document.querySelectorAll('.islamic-tab').forEach(tabBtn => {
+        tabBtn.addEventListener('click', () => {
+            const target = tabBtn.getAttribute('data-tab');
+            if (target) activateTab(target);
         });
     });
 
-    // إعادة تعيين كل العدادات للأذكار لو حبيت (اختياري: زر خفي) ، لكن رضاً نضيف اعادة ضبط سريعة للسبحة فقط.
-    // تحميل اولي
-    refreshAllLists();
+    // السبحة الرئيسية
+    const beadDiv = document.getElementById('gloriousBead');
+    const resetTasbeeh = document.getElementById('resetTasbeehBtn');
+
+    beadDiv.addEventListener('click', () => {
+        tasbeehMain++;
+        updateTasbeehUI();
+        // تأثير النقر على الحبة
+        beadDiv.style.transform = 'scale(0.94)';
+        setTimeout(() => beadDiv.style.transform = '', 70);
+    });
+
+    resetTasbeeh.addEventListener('click', () => {
+        tasbeehMain = 0;
+        updateTasbeehUI();
+    });
+
+    // تهيئة كاملة
+    refreshAllIslamic();
     updateTasbeehUI();
 </script>
 </body>
-      </html>
+    </html>
