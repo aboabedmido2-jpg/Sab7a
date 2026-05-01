@@ -2,440 +2,464 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>تسبيحة العرش | The Architect's Ultimate Dhikr Engine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#0d2a20">
+    <title>سبحة الروح - تطبيق التسبيح الذكي</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: radial-gradient(ellipse at 20% 30%, #0a1510, #020806);
-            font-family: 'Times New Roman', 'Amiri', 'Scheherazade', 'Segoe UI', serif;
-            min-height: 100vh;
+            background: #071a14;
+            font-family: -apple-system, 'Segoe UI', 'Amiri', 'SF Pro Arabic', system-ui, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 16px;
-            position: relative;
-            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
         }
 
-        /* نظام الجسيمات الذهبية */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* هيكل التطبيق بالكامل - يبدو كتطبيق أصلي */
+        .app-container {
             width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .particle {
-            position: absolute;
-            background: radial-gradient(circle, #ffdd88, #b8860b);
-            border-radius: 50%;
-            opacity: 0.4;
-            animation: floatGold 12s infinite;
-        }
-
-        @keyframes floatGold {
-            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
-            50% { opacity: 0.6; }
-            100% { transform: translateY(-200px) rotate(360deg); opacity: 0; }
-        }
-
-        /* الحاوية الرئيسية - تصميم العرش */
-        .arsh-container {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            max-width: 850px;
-            background: rgba(6, 20, 14, 0.65);
-            backdrop-filter: blur(16px);
-            border-radius: 70px 70px 110px 110px;
-            box-shadow: 0 0 0 4px #e6bc6e, 0 0 0 10px #1e3328, 0 35px 60px black;
-            transition: all 0.3s;
+            max-width: 450px;
+            height: 780px;
+            background: linear-gradient(145deg, #0c231c 0%, #071a14 100%);
+            border-radius: 44px;
+            box-shadow: 0 25px 55px rgba(0,0,0,0.5), 0 0 0 6px #2a4238, 0 0 0 12px #0f2a22;
             overflow: hidden;
-        }
-
-        /* رأسية القبة النورانية */
-        .noor-dome {
             position: relative;
-            height: 65px;
-            background: linear-gradient(180deg, #eab354, #8b6326);
-            clip-path: polygon(0% 100%, 10% 0%, 90% 0%, 100% 100%);
-            margin-top: -1px;
-        }
-        .noor-dome::before {
-            content: "﷽";
-            position: absolute;
-            bottom: -28px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 42px;
-            color: #f3d382;
-            text-shadow: 0 0 8px gold;
-            background: #031008b3;
-            padding: 0 20px;
-            border-radius: 80px;
-        }
-
-        /* لوحة التحكم */
-        .control-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 25px;
-            background: #00000040;
-            flex-wrap: wrap;
-            gap: 12px;
-            border-bottom: 1px solid #eec15a;
-        }
-
-        .mode-toggle, .save-load {
-            display: flex;
-            gap: 8px;
-        }
-
-        .ctrl-btn {
-            background: #2a2c1e;
-            border: 1px solid #eec15a;
-            padding: 6px 15px;
-            border-radius: 50px;
-            color: #fff0c0;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: 0.1s;
-        }
-
-        .ctrl-btn:active { transform: scale(0.95); background: #46461f; }
-
-        /* التابات الروحانية */
-        .spiritual-tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 16px 20px 0 20px;
-            background: #05140e60;
-        }
-
-        .tab-celestial {
-            background: rgba(0,0,0,0.6);
-            border: none;
-            padding: 10px 22px;
-            border-radius: 100px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            color: #ffeca9;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: inherit;
-        }
-
-        .tab-celestial.active {
-            background: linear-gradient(145deg, #f3d27b, #c7922e);
-            color: #0b2b1a;
-            box-shadow: 0 0 12px #ffdd99;
-        }
-
-        /* المحتوى */
-        .divine-content {
-            display: none;
-            padding: 28px 24px 45px;
-            animation: heavenFade 0.3s;
-        }
-        .divine-content.active { display: block; }
-        @keyframes heavenFade {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* السبحة ثلاثية الأبعاد + صوت */
-        .tasbeeh-3d-area {
-            text-align: center;
-        }
-        .tasbeeh-number {
-            font-size: 5rem;
-            background: #030d09;
-            display: inline-block;
-            padding: 10px 45px;
-            border-radius: 100px;
-            font-weight: 900;
-            color: #ffe1a0;
-            border: 2px solid #deaa48;
-            letter-spacing: 8px;
-            margin: 15px 0;
-        }
-        .virtual-bead {
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle at 35% 35%, #f7da8f, #b17428);
-            border-radius: 50%;
-            margin: 20px auto;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+        }
+
+        /* حالة الشاشة العلوية (Dynamic Island-like) */
+        .status-bar {
+            padding: 14px 24px 8px;
+            display: flex;
+            justify-content: space-between;
+            color: #ecd68a;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* الهيدر */
+        .app-header {
+            padding: 8px 24px 12px;
+            border-bottom: 1px solid #dbb45c30;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #f3da9b, #ca9f3e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .date-badge {
+            background: #1f3a30;
+            padding: 6px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: #e3c97a;
+        }
+
+        /* منطقة المحتوى الرئيسية - قابلة للتمرير */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px 10px;
+            scrollbar-width: thin;
+        }
+
+        /* ========== شاشة السبحة الرئيسية ========== */
+        .tasbeeh-screen {
+            display: flex;
+            flex-direction: column;
             align-items: center;
+            padding: 12px 0 20px;
+        }
+
+        .counter-circle {
+            background: #05120e;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,215,0,0.3), 0 0 0 4px #dbb258;
+            margin: 16px 0;
+        }
+        .counter-number {
+            font-size: 4.8rem;
+            font-weight: 900;
+            color: #ffe4a3;
+            font-family: monospace;
+            letter-spacing: 6px;
+        }
+        .counter-label {
+            font-size: 0.8rem;
+            color: #c4aa64;
+        }
+
+        .tasbeeh-bead-large {
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle at 35% 30%, #f3da8c, #c4922e);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            box-shadow: 0 15px 35px black, inset 0 -6px 0 #684f1f;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.5), inset 0 -8px 0 #7a551f, inset 0 2px 10px rgba(255,245,180,0.9);
             transition: 0.03s linear;
+            margin: 20px 0;
+        }
+        .tasbeeh-bead-large:active {
+            transform: scale(0.95);
+        }
+        .bead-text {
             font-size: 2rem;
             font-weight: bold;
-            color: #30200c;
+            color: #2c2412;
         }
-        .virtual-bead:active { transform: scale(0.92); }
+        .bead-sub {
+            font-size: 0.8rem;
+            color: #4a3a1a;
+        }
 
-        .voice-cmd {
-            background: #1a3528;
-            padding: 8px 20px;
+        .action-row {
+            display: flex;
+            gap: 24px;
+            margin-top: 16px;
+        }
+        .action-btn {
+            background: #202f28;
+            border: none;
+            padding: 12px 28px;
             border-radius: 50px;
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.7rem;
-            color: #ffeaad;
+            color: #f9e2a4;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
         }
+        .action-btn:active { transform: scale(0.96); background: #2e463a; }
 
-        /* الأذكار البطاقات المتقدمة */
-        .dhikr-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-height: 470px;
-            overflow-y: auto;
+        /* بطاقات الأذكار على شكل تطبيق */
+        .section-title {
+            font-size: 1rem;
+            color: #eccf85;
+            margin: 20px 0 12px 8px;
+            font-weight: 600;
         }
-        .dhikr-super-card {
-            background: linear-gradient(115deg, #162f24, #0a2319);
-            border-right: 10px solid #f0bc60;
-            border-radius: 70px;
-            padding: 16px 24px;
+        .dhikr-card {
+            background: #11271f;
+            border-radius: 28px;
+            padding: 16px 18px;
+            margin-bottom: 12px;
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border-right: 5px solid #e7bc60;
         }
         .dhikr-text {
-            font-size: 1.15rem;
-            font-weight: 600;
-            color: #fff6e0;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff4e0;
             flex: 2;
+            line-height: 1.4;
         }
-        .count-special {
-            background: #030f0a;
-            padding: 6px 20px;
+        .dhikr-counter {
+            background: #030f0b;
+            padding: 6px 16px;
             border-radius: 50px;
-            font-size: 1.3rem;
             font-weight: bold;
-            color: #fbd26a;
-            font-family: monospace;
+            color: #ffdf94;
+            font-size: 1rem;
+            min-width: 65px;
+            text-align: center;
         }
-        .btn-gold {
-            background: #e7b34b;
+        .dhikr-plus {
+            background: #e9bc64;
             border: none;
-            padding: 7px 30px;
-            border-radius: 50px;
+            width: 44px;
+            height: 44px;
+            border-radius: 30px;
+            font-size: 1.4rem;
             font-weight: bold;
             cursor: pointer;
+            color: #1d2f24;
         }
-        .footer-cosmic {
-            padding: 14px;
-            text-align: center;
-            background: #03120e;
-            color: #e2c481;
+        .dhikr-plus:active { transform: scale(0.92); background: #cb9a3e; }
+
+        /* شريط التنقل السفلي - مثل تطبيقات الجوال */
+        .bottom-nav {
+            background: #0a211ab3;
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 20px 22px;
+            border-top: 1px solid #dbb85c40;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #ad9f70;
             font-size: 0.7rem;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 40px;
+            transition: 0.1s;
         }
-        @media (max-width: 600px) {
-            .tasbeeh-number { font-size: 3rem; letter-spacing: 4px; }
-            .virtual-bead { width: 120px; height: 120px; font-size: 1.5rem; }
-            .dhikr-text { font-size: 0.85rem; }
+        .nav-item.active {
+            color: #f5d97a;
+            background: #2f4a3c60;
+        }
+        .nav-icon {
+            font-size: 1.6rem;
+        }
+
+        /* التمرير الناعم */
+        .main-content::-webkit-scrollbar {
+            width: 3px;
+        }
+        .main-content::-webkit-scrollbar-track {
+            background: #1c332a;
+            border-radius: 10px;
+        }
+        .main-content::-webkit-scrollbar-thumb {
+            background: #dbaa44;
+        }
+
+        /* إخفاء المحتوى حسب التبويب */
+        .page {
+            display: none;
+            animation: pageSlide 0.2s ease;
+        }
+        .page.active-page {
+            display: block;
+        }
+        @keyframes pageSlide {
+            from { opacity: 0; transform: translateY(8px);}
+            to { opacity: 1; transform: translateY(0);}
         }
     </style>
 </head>
 <body>
-<div class="particles" id="particles"></div>
-<div class="arsh-container">
-    <div class="noor-dome"></div>
-    <div class="control-header">
-        <div class="mode-toggle">
-            <button class="ctrl-btn" id="nightModeBtn">🌙 وضع الليل</button>
-            <button class="ctrl-btn" id="dayModeBtn">☀️ وضع النهار</button>
-        </div>
-        <div class="save-load">
-            <button class="ctrl-btn" id="saveStateBtn">💾 حفظ التقدم</button>
-            <button class="ctrl-btn" id="loadStateBtn">📀 استعادة</button>
-        </div>
+<div class="app-container">
+    <div class="status-bar">
+        <span>9:41</span>
+        <span>📶 🔋 100%</span>
     </div>
-    <div class="spiritual-tabs">
-        <button class="tab-celestial active" data-tab="throne-tasbeeh">📿 التسبيح الأسمى</button>
-        <button class="tab-celestial" data-tab="throne-morning">🍃 أذكار الصباح</button>
-        <button class="tab-celestial" data-tab="throne-evening">🌙 أذكار المساء</button>
-        <button class="tab-celestial" data-tab="throne-dua">🤲 الأدعية العظام</button>
+    <div class="app-header">
+        <div class="app-title">سَبِّحْ</div>
+        <div class="date-badge" id="hijriDate">الخميس ١٤٤٧</div>
     </div>
 
-    <div id="throne-tasbeeh" class="divine-content active">
-        <div class="tasbeeh-3d-area">
-            <div class="tasbeeh-number" id="mainTasbeehCount">0</div>
-            <div class="virtual-bead" id="masterBead">
-                <span>🤲 سُبْحَانَ اللَّهِ</span>
-                <small style="font-size:12px">اضغط أو استخدم الصوت</small>
+    <div class="main-content">
+        <!-- صفحة التسبيح -->
+        <div id="page-tasbeeh" class="page active-page">
+            <div class="tasbeeh-screen">
+                <div class="counter-circle">
+                    <div class="counter-number" id="mainCounter">0</div>
+                    <div class="counter-label">تسبيحة</div>
+                </div>
+                <div class="tasbeeh-bead-large" id="bigBead">
+                    <div class="bead-text">۞ سُبْحَانَ اللَّه ۞</div>
+                    <div class="bead-sub">اضغط للتسبيح</div>
+                </div>
+                <div class="action-row">
+                    <button class="action-btn" id="resetCounterBtn">🗑️ إعادة ضبط</button>
+                </div>
             </div>
-            <div class="voice-cmd" id="voiceHint">🎤 جرّب: قل "سبحان الله" أو "تكبير" (ميكروفون)</div>
-            <button class="ctrl-btn" id="resetTasbeehBtn" style="margin-top:20px">⟳ إعادة ضبط التسبيح</button>
+        </div>
+
+        <!-- صفحة أذكار الصباح -->
+        <div id="page-morning" class="page">
+            <div class="section-title">☀️ أذكار الصباح</div>
+            <div id="morningListContainer"></div>
+        </div>
+
+        <!-- صفحة أذكار المساء -->
+        <div id="page-evening" class="page">
+            <div class="section-title">🌙 أذكار المساء</div>
+            <div id="eveningListContainer"></div>
+        </div>
+
+        <!-- صفحة الأدعية -->
+        <div id="page-dua" class="page">
+            <div class="section-title">🤲 جوامع الدعاء</div>
+            <div id="duaListContainer"></div>
         </div>
     </div>
-    <div id="throne-morning" class="divine-content"><div class="dhikr-grid" id="morningGrid"></div></div>
-    <div id="throne-evening" class="divine-content"><div class="dhikr-grid" id="eveningGrid"></div></div>
-    <div id="throne-dua" class="divine-content"><div class="dhikr-grid" id="duaGrid"></div></div>
-    <div class="footer-cosmic">آخر تصميم من The Architect — ذكاء تام، تخزين، صوت، جسيمات ذهبية، لا منافس.</div>
+
+    <div class="bottom-nav">
+        <button class="nav-item active" data-page="page-tasbeeh">
+            <div class="nav-icon">📿</div>
+            <span>تسبيح</span>
+        </button>
+        <button class="nav-item" data-page="page-morning">
+            <div class="nav-icon">☀️</div>
+            <span>صباح</span>
+        </button>
+        <button class="nav-item" data-page="page-evening">
+            <div class="nav-icon">🌙</div>
+            <span>مساء</span>
+        </button>
+        <button class="nav-item" data-page="page-dua">
+            <div class="nav-icon">🤲</div>
+            <span>دعاء</span>
+        </button>
+    </div>
 </div>
 
 <script>
-    // ---------- البيانات ----------
-    const morningData = [
-        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 0 },{ text: "اللَّهُمَّ بِكَ أَصْبَحْنَا", count: 0 },
-        { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ", count: 0 },{ text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ", count: 0 },
-        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 }
+    // =============== بيانات التطبيق ===============
+    let tasbeehCount = 0;
+
+    const morningDhikr = [
+        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 0 },
+        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },
+        { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا", count: 0 },
+        { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", count: 0 },
+        { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ", count: 0 }
     ];
-    const eveningData = [
-        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },{ text: "اللَّهُمَّ بِكَ أَمْسَيْنَا", count: 0 },
-        { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ", count: 0 },{ text: "لَا إِلَهَ إِلَّا اللَّهُ", count: 0 },
-        { text: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ", count: 0 }
+
+    const eveningDhikr = [
+        { text: "سُبْحَانَ اللَّهِ الْعَظِيمِ", count: 0 },
+        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },
+        { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا", count: 0 },
+        { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ", count: 0 },
+        { text: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ", count: 0 }
     ];
-    const duaData = [
-        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً", count: 0 },{ text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي", count: 0 },
-        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", count: 0 },{ text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", count: 0 },
+
+    const duaList = [
+        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً", count: 0 },
+        { text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي", count: 0 },
+        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", count: 0 },
+        { text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", count: 0 },
         { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ", count: 0 }
     ];
-    let tasbeehValue = 0;
-    let morning = morningData.map(i=>({...i}));
-    let evening = eveningData.map(i=>({...i}));
-    let dua = duaData.map(i=>({...i}));
 
-    // العناصر
-    const mainCounterSpan = document.getElementById('mainTasbeehCount');
-    const beadElement = document.getElementById('masterBead');
-    const resetTasbeehBtn = document.getElementById('resetTasbeehBtn');
+    // حالات
+    let morningState = morningDhikr.map(i => ({ ...i }));
+    let eveningState = eveningDhikr.map(i => ({ ...i }));
+    let duaState = duaList.map(i => ({ ...i }));
 
-    function updateTasbeehUI() { mainCounterSpan.innerText = tasbeehValue; }
-    function addTasbeeh(amount=1) { tasbeehValue += amount; updateTasbeehUI(); }
-    resetTasbeehBtn.onclick = () => { tasbeehValue = 0; updateTasbeehUI(); };
-    beadElement.onclick = () => addTasbeeh(1);
+    // عناصر
+    const mainCounterSpan = document.getElementById('mainCounter');
+    const bigBead = document.getElementById('bigBead');
+    const resetBtn = document.getElementById('resetCounterBtn');
 
-    // وظائف الأذكار
-    function renderDhikrGrid(containerId, dataArr, prefix) {
+    function updateMainCounter() {
+        mainCounterSpan.innerText = tasbeehCount;
+    }
+
+    bigBead.addEventListener('click', () => {
+        tasbeehCount++;
+        updateMainCounter();
+        // تأثير اهتزاز خفيف
+        bigBead.style.transform = 'scale(0.96)';
+        setTimeout(() => { bigBead.style.transform = ''; }, 80);
+    });
+
+    resetBtn.addEventListener('click', () => {
+        tasbeehCount = 0;
+        updateMainCounter();
+    });
+
+    // دالة عرض الأذكار كبطاقات تطبيق
+    function renderDhikrCards(containerId, dataArray, typePrefix) {
         const container = document.getElementById(containerId);
-        if(!container) return;
-        container.innerHTML='';
-        dataArr.forEach((item,idx)=>{
-            const card=document.createElement('div');
-            card.className='dhikr-super-card';
-            card.innerHTML=`
-                <div class="dhikr-text">📖 ${item.text}</div>
-                <div class="count-special" id="${prefix}-badge-${idx}">${item.count}</div>
-                <button class="btn-gold" data-prefix="${prefix}" data-idx="${idx}">+ تسبيحة</button>
+        if (!container) return;
+        container.innerHTML = '';
+        dataArray.forEach((item, idx) => {
+            const card = document.createElement('div');
+            card.className = 'dhikr-card';
+            card.innerHTML = `
+                <div class="dhikr-text">${item.text}</div>
+                <div class="dhikr-counter" id="${typePrefix}-count-${idx}">${item.count}</div>
+                <button class="dhikr-plus" data-type="${typePrefix}" data-index="${idx}">+</button>
             `;
             container.appendChild(card);
         });
-        document.querySelectorAll(`.btn-gold[data-prefix="${prefix}"]`).forEach(btn=>{
-            btn.onclick = (e)=>{
-                const p = btn.getAttribute('data-prefix');
-                const i = parseInt(btn.getAttribute('data-idx'));
-                if(p==='morning') { morning[i].count++; document.getElementById(`morning-badge-${i}`).innerText=morning[i].count; }
-                else if(p==='evening') { evening[i].count++; document.getElementById(`evening-badge-${i}`).innerText=evening[i].count; }
-                else if(p==='dua') { dua[i].count++; document.getElementById(`dua-badge-${i}`).innerText=dua[i].count; }
-                btn.style.transform='scale(0.92)'; setTimeout(()=>btn.style.transform='',80);
-            };
+
+        // ربط الأحداث
+        document.querySelectorAll(`.dhikr-plus[data-type="${typePrefix}"]`).forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const type = btn.getAttribute('data-type');
+                const index = parseInt(btn.getAttribute('data-index'));
+                if (type === 'morning') {
+                    morningState[index].count++;
+                    document.getElementById(`morning-count-${index}`).innerText = morningState[index].count;
+                } else if (type === 'evening') {
+                    eveningState[index].count++;
+                    document.getElementById(`evening-count-${index}`).innerText = eveningState[index].count;
+                } else if (type === 'dua') {
+                    duaState[index].count++;
+                    document.getElementById(`dua-count-${index}`).innerText = duaState[index].count;
+                }
+                btn.style.transform = 'scale(0.9)';
+                setTimeout(() => btn.style.transform = '', 100);
+            });
         });
     }
-    function refreshAll() {
-        renderDhikrGrid('morningGrid', morning, 'morning');
-        renderDhikrGrid('eveningGrid', evening, 'evening');
-        renderDhikrGrid('duaGrid', dua, 'dua');
+
+    // تحديث كل القوائم
+    function refreshAllCards() {
+        renderDhikrCards('morningListContainer', morningState, 'morning');
+        renderDhikrCards('eveningListContainer', eveningState, 'evening');
+        renderDhikrCards('duaListContainer', duaState, 'dua');
     }
 
-    // حفظ واستعادة
-    function saveFullState() {
-        const state = { tasbeehValue, morning, evening, dua };
-        localStorage.setItem('tasbeeh_ultimate', JSON.stringify(state));
-        alert('تم الحفظ في الذاكرة الخارقة');
+    // التنقل بين الصفحات (شريط سفلي)
+    function switchToPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
+        document.getElementById(pageId).classList.add('active-page');
+        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+        document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add('active');
     }
-    function loadFullState() {
-        const raw = localStorage.getItem('tasbeeh_ultimate');
-        if(raw) {
-            const s = JSON.parse(raw);
-            tasbeehValue = s.tasbeehValue; morning = s.morning; evening = s.evening; dua = s.dua;
-            updateTasbeehUI(); refreshAll();
-            alert('تم الاستعادة بنجاح');
-        } else alert('لا يوجد حفظ سابق');
-    }
-    document.getElementById('saveStateBtn').onclick = saveFullState;
-    document.getElementById('loadStateBtn').onclick = loadFullState;
 
-    // وضع الليل والنهار
-    function setDayMode() { document.body.style.background = "radial-gradient(ellipse at 20% 30%, #0a1510, #020806)"; }
-    function setNightMode() { document.body.style.background = "radial-gradient(ellipse at 20% 30%, #030b18, #000000)"; }
-    document.getElementById('dayModeBtn').onclick = setDayMode;
-    document.getElementById('nightModeBtn').onclick = setNightMode;
-
-    // الأوامر الصوتية
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'ar-SA';
-        recognition.continuous = false;
-        const voiceHint = document.getElementById('voiceHint');
-        voiceHint.style.cursor = 'pointer';
-        voiceHint.onclick = () => {
-            recognition.start();
-            voiceHint.innerText = '🎙️ استمع... قل سبحان الله أو الحمدلله أو الله أكبر';
-        };
-        recognition.onresult = (event) => {
-            const transcript = event.results[0][0].transcript;
-            if(transcript.includes('سبحان الله') || transcript.includes('سبحان')) addTasbeeh(1);
-            else if(transcript.includes('الله أكبر') || transcript.includes('اكبر')) addTasbeeh(1);
-            else if(transcript.includes('الحمد لله')) addTasbeeh(1);
-            else if(transcript.includes('تكبير')) addTasbeeh(1);
-            else if(transcript.includes('ثلاث')) addTasbeeh(3);
-            voiceHint.innerText = `✅ تم: "${transcript}" + تسبيحة`;
-            setTimeout(()=>{ voiceHint.innerText = '🎤 اضغط للأمر الصوتي'; }, 1800);
-        };
-        recognition.onerror = () => { voiceHint.innerText = '🎤 حاول مجددًا'; };
-    } else { document.getElementById('voiceHint').innerText = '⚠️ المتصفح لا يدعم الصوت'; }
-
-    // الجسيمات الذهبية
-    function createParticles() {
-        const container = document.getElementById('particles');
-        for(let i=0;i<55;i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            const size = Math.random() * 6 + 2;
-            p.style.width = size+'px'; p.style.height = size+'px';
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = Math.random() * 15 + 8 + 's';
-            p.style.animationDelay = Math.random() * 10 + 's';
-            container.appendChild(p);
-        }
-    }
-    createParticles();
-
-    // التابات
-    function switchTab(tabId) {
-        document.querySelectorAll('.divine-content').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-celestial').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        document.querySelector(`.tab-celestial[data-tab="${tabId}"]`).classList.add('active');
-    }
-    document.querySelectorAll('.tab-celestial').forEach(btn => {
-        btn.addEventListener('click', () => switchTab(btn.getAttribute('data-tab')));
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const targetPage = item.getAttribute('data-page');
+            if (targetPage) switchToPage(targetPage);
+        });
     });
 
-    refreshAll();
-    updateTasbeehUI();
+    // تاريخ هجري وهمي ديناميكي (تلقائي)
+    function updateHijriDate() {
+        const date = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const greg = date.toLocaleDateString('ar-EG', options);
+        document.getElementById('hijriDate').innerText = greg + ' هـ';
+    }
+    updateHijriDate();
+
+    // تهيئة التطبيق
+    refreshAllCards();
+    updateMainCounter();
 </script>
 </body>
-    </html>
+</html>
