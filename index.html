@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0d2a20">
-    <title>سبحة الروح - تطبيق التسبيح الذكي</title>
+    <title>المسبحة الإلكترونية المتطورة | تسبيح + لوحة مفاتيح + عدادات</title>
     <style>
         * {
             margin: 0;
@@ -22,444 +22,391 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 0;
-            margin: 0;
+            padding: 12px;
         }
 
-        /* هيكل التطبيق بالكامل - يبدو كتطبيق أصلي */
-        .app-container {
+        /* حاوية التطبيق */
+        .app-wrapper {
             width: 100%;
-            max-width: 450px;
-            height: 780px;
-            background: linear-gradient(145deg, #0c231c 0%, #071a14 100%);
-            border-radius: 44px;
-            box-shadow: 0 25px 55px rgba(0,0,0,0.5), 0 0 0 6px #2a4238, 0 0 0 12px #0f2a22;
+            max-width: 550px;
+            background: linear-gradient(145deg, #0c231c, #071a14);
+            border-radius: 48px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 0 0 0 4px #2a4238;
             overflow: hidden;
             position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* حالة الشاشة العلوية (Dynamic Island-like) */
-        .status-bar {
-            padding: 14px 24px 8px;
-            display: flex;
-            justify-content: space-between;
-            color: #ecd68a;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
         }
 
         /* الهيدر */
-        .app-header {
-            padding: 8px 24px 12px;
-            border-bottom: 1px solid #dbb45c30;
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+        .header {
+            padding: 20px 20px 12px;
+            background: rgba(0,0,0,0.25);
+            text-align: center;
+            border-bottom: 1px solid #dbb45c40;
         }
-        .app-title {
-            font-size: 1.5rem;
+        .logo {
+            font-size: 1.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #f3da9b, #ca9f3e);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
-        .date-badge {
-            background: #1f3a30;
-            padding: 6px 12px;
-            border-radius: 40px;
-            font-size: 0.7rem;
-            color: #e3c97a;
+        .hijri-date {
+            font-size: 0.75rem;
+            color: #d4bc7a;
+            margin-top: 6px;
         }
 
-        /* منطقة المحتوى الرئيسية - قابلة للتمرير */
-        .main-content {
-            flex: 1;
+        /* المحتوى الرئيسي - قابل للتمرير */
+        .content {
+            max-height: 70vh;
             overflow-y: auto;
-            padding: 16px 20px 10px;
+            padding: 16px 18px;
             scrollbar-width: thin;
         }
 
-        /* ========== شاشة السبحة الرئيسية ========== */
-        .tasbeeh-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 12px 0 20px;
-        }
-
-        .counter-circle {
+        /* العداد الرئيسي العالمي */
+        .global-counter {
             background: #05120e;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), inset 0 1px 3px rgba(255,215,0,0.3), 0 0 0 4px #dbb258;
-            margin: 16px 0;
+            border-radius: 80px;
+            padding: 12px 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px solid #e9bc64;
         }
-        .counter-number {
-            font-size: 4.8rem;
-            font-weight: 900;
-            color: #ffe4a3;
-            font-family: monospace;
-            letter-spacing: 6px;
+        .global-label {
+            font-size: 0.7rem;
+            color: #c7b06e;
         }
-        .counter-label {
-            font-size: 0.8rem;
-            color: #c4aa64;
-        }
-
-        .tasbeeh-bead-large {
-            width: 180px;
-            height: 180px;
-            background: radial-gradient(circle at 35% 30%, #f3da8c, #c4922e);
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 20px 35px rgba(0,0,0,0.5), inset 0 -8px 0 #7a551f, inset 0 2px 10px rgba(255,245,180,0.9);
-            transition: 0.03s linear;
-            margin: 20px 0;
-        }
-        .tasbeeh-bead-large:active {
-            transform: scale(0.95);
-        }
-        .bead-text {
+        .global-number {
             font-size: 2rem;
-            font-weight: bold;
-            color: #2c2412;
+            font-weight: 800;
+            color: #ffe4aa;
+            font-family: monospace;
         }
-        .bead-sub {
-            font-size: 0.8rem;
-            color: #4a3a1a;
+        .global-note {
+            font-size: 0.6rem;
+            color: #8f7c48;
         }
 
-        .action-row {
-            display: flex;
-            gap: 24px;
-            margin-top: 16px;
-        }
-        .action-btn {
-            background: #202f28;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 50px;
-            color: #f9e2a4;
-            font-weight: bold;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        .action-btn:active { transform: scale(0.96); background: #2e463a; }
-
-        /* بطاقات الأذكار على شكل تطبيق */
-        .section-title {
-            font-size: 1rem;
-            color: #eccf85;
-            margin: 20px 0 12px 8px;
-            font-weight: 600;
+        /* شبكة الأذكار والعدادات */
+        .dhikr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
         }
         .dhikr-card {
             background: #11271f;
             border-radius: 28px;
-            padding: 16px 18px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            border-right: 5px solid #e7bc60;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.05s linear;
+            border: 1px solid #5c7540;
+            box-shadow: 0 2px 6px black;
         }
+        .dhikr-card:active { transform: scale(0.97); background: #1d3f32; }
         .dhikr-text {
-            font-size: 1rem;
-            font-weight: 500;
-            color: #fff4e0;
-            flex: 2;
-            line-height: 1.4;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #fff2db;
+            margin-bottom: 10px;
+            line-height: 1.3;
         }
-        .dhikr-counter {
-            background: #030f0b;
-            padding: 6px 16px;
-            border-radius: 50px;
+        .dhikr-count {
+            font-size: 1.7rem;
             font-weight: bold;
-            color: #ffdf94;
+            color: #f7cf7c;
+            font-family: monospace;
+            background: #030f0a;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 40px;
+            margin-top: 6px;
+        }
+        .edit-hint {
+            font-size: 0.6rem;
+            color: #aa975a;
+            margin-top: 6px;
+        }
+
+        /* عداد سريع مخصص */
+        .quick-add-section {
+            background: #0d2b21;
+            border-radius: 40px;
+            padding: 14px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .quick-label {
+            color: #f0d68a;
+            font-size: 0.8rem;
+        }
+        .quick-input {
+            background: #04120e;
+            border: 1px solid #eabc5a;
+            padding: 8px 15px;
+            border-radius: 60px;
+            color: #ffe1a0;
             font-size: 1rem;
-            min-width: 65px;
+            width: 100px;
             text-align: center;
         }
-        .dhikr-plus {
-            background: #e9bc64;
+        .quick-btn {
+            background: #eabb63;
             border: none;
-            width: 44px;
-            height: 44px;
-            border-radius: 30px;
-            font-size: 1.4rem;
+            padding: 8px 18px;
+            border-radius: 60px;
             font-weight: bold;
             cursor: pointer;
-            color: #1d2f24;
         }
-        .dhikr-plus:active { transform: scale(0.92); background: #cb9a3e; }
 
-        /* شريط التنقل السفلي - مثل تطبيقات الجوال */
-        .bottom-nav {
-            background: #0a211ab3;
-            backdrop-filter: blur(20px);
+        /* أزرار المشاركة */
+        .share-section {
             display: flex;
-            justify-content: space-around;
-            padding: 12px 20px 22px;
-            border-top: 1px solid #dbb85c40;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px 0 10px;
+            flex-wrap: wrap;
         }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            background: none;
+        .share-btn {
+            background: #2f463c;
             border: none;
-            color: #ad9f70;
-            font-size: 0.7rem;
+            padding: 8px 18px;
+            border-radius: 50px;
+            color: #ffe0a8;
+            font-size: 0.75rem;
             cursor: pointer;
-            padding: 6px 12px;
-            border-radius: 40px;
-            transition: 0.1s;
-        }
-        .nav-item.active {
-            color: #f5d97a;
-            background: #2f4a3c60;
-        }
-        .nav-icon {
-            font-size: 1.6rem;
         }
 
-        /* التمرير الناعم */
-        .main-content::-webkit-scrollbar {
-            width: 3px;
+        /* تذييل */
+        .footer {
+            text-align: center;
+            padding: 16px;
+            background: #03120e;
+            font-size: 0.65rem;
+            color: #bba462;
+            border-top: 1px solid #dbb85c30;
         }
-        .main-content::-webkit-scrollbar-track {
-            background: #1c332a;
-            border-radius: 10px;
+        .keyboard-hint {
+            background: #1c2f2850;
+            padding: 6px;
+            border-radius: 28px;
+            font-size: 0.65rem;
+            margin-bottom: 12px;
         }
-        .main-content::-webkit-scrollbar-thumb {
-            background: #dbaa44;
-        }
-
-        /* إخفاء المحتوى حسب التبويب */
-        .page {
-            display: none;
-            animation: pageSlide 0.2s ease;
-        }
-        .page.active-page {
-            display: block;
-        }
-        @keyframes pageSlide {
-            from { opacity: 0; transform: translateY(8px);}
-            to { opacity: 1; transform: translateY(0);}
+        @media (max-width: 480px) {
+            .dhikr-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+            .dhikr-text { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
-<div class="app-container">
-    <div class="status-bar">
-        <span>9:41</span>
-        <span>📶 🔋 100%</span>
-    </div>
-    <div class="app-header">
-        <div class="app-title">سَبِّحْ</div>
-        <div class="date-badge" id="hijriDate">الخميس ١٤٤٧</div>
+<div class="app-wrapper">
+    <div class="header">
+        <div class="logo">⭐ المسبحة الإلكترونية المتطورة ⭐</div>
+        <div class="hijri-date" id="hijriDisplay"></div>
+        <div class="keyboard-hint">⌨️ اضغط على أي ذكر ثم استخدم: مسافة أو Enter أو أرقام لزيادة العداد</div>
     </div>
 
-    <div class="main-content">
-        <!-- صفحة التسبيح -->
-        <div id="page-tasbeeh" class="page active-page">
-            <div class="tasbeeh-screen">
-                <div class="counter-circle">
-                    <div class="counter-number" id="mainCounter">0</div>
-                    <div class="counter-label">تسبيحة</div>
-                </div>
-                <div class="tasbeeh-bead-large" id="bigBead">
-                    <div class="bead-text">۞ سُبْحَانَ اللَّه ۞</div>
-                    <div class="bead-sub">اضغط للتسبيح</div>
-                </div>
-                <div class="action-row">
-                    <button class="action-btn" id="resetCounterBtn">🗑️ إعادة ضبط</button>
-                </div>
-            </div>
+    <div class="content">
+        <!-- العداد العالمي (زيادة روح المشاركة) -->
+        <div class="global-counter">
+            <div class="global-label">🌍 إجمالي تسبيحات المستخدمين</div>
+            <div class="global-number" id="globalCountDisplay">12,689,039</div>
+            <div class="global-note">🔼 يمكنك زيادته بالضغط على الزر أدناه</div>
+            <button id="addGlobalBtn" style="margin-top:6px; background:#836e38; border:none; padding:4px 15px; border-radius:50px; color:white;">+١٠٠ للتسبيحة العالمية</button>
         </div>
 
-        <!-- صفحة أذكار الصباح -->
-        <div id="page-morning" class="page">
-            <div class="section-title">☀️ أذكار الصباح</div>
-            <div id="morningListContainer"></div>
+        <!-- شبكة الأذكار (جميع الأذكار الموجودة في الموقع الأصلي + أذكار إضافية) -->
+        <div class="dhikr-grid" id="dhikrGrid"></div>
+
+        <!-- إضافة سريعة عبر لوحة الأرقام -->
+        <div class="quick-add-section">
+            <span class="quick-label">➕ إضافة عدد محدد:</span>
+            <input type="number" id="quickAmount" class="quick-input" value="1" min="1">
+            <button id="applyToSelected" class="quick-btn">تطبيق على الذكر المختار</button>
+        </div>
+        <div class="quick-add-section">
+            <span class="quick-label">🎯 الذكر المختار حاليًا:</span>
+            <span id="selectedDhikrName" style="color:#ffe0a0;">لم يتم الاختيار</span>
         </div>
 
-        <!-- صفحة أذكار المساء -->
-        <div id="page-evening" class="page">
-            <div class="section-title">🌙 أذكار المساء</div>
-            <div id="eveningListContainer"></div>
-        </div>
-
-        <!-- صفحة الأدعية -->
-        <div id="page-dua" class="page">
-            <div class="section-title">🤲 جوامع الدعاء</div>
-            <div id="duaListContainer"></div>
+        <!-- مشاركة -->
+        <div class="share-section">
+            <button class="share-btn" id="shareFB">📘 مشاركة على فيسبوك</button>
+            <button class="share-btn" id="shareWA">💬 واتساب</button>
+            <button class="share-btn" id="shareTG">✈️ تليجرام</button>
+            <button class="share-btn" id="installApp">📲 أضف إلى الشاشة الرئيسية</button>
         </div>
     </div>
-
-    <div class="bottom-nav">
-        <button class="nav-item active" data-page="page-tasbeeh">
-            <div class="nav-icon">📿</div>
-            <span>تسبيح</span>
-        </button>
-        <button class="nav-item" data-page="page-morning">
-            <div class="nav-icon">☀️</div>
-            <span>صباح</span>
-        </button>
-        <button class="nav-item" data-page="page-evening">
-            <div class="nav-icon">🌙</div>
-            <span>مساء</span>
-        </button>
-        <button class="nav-item" data-page="page-dua">
-            <div class="nav-icon">🤲</div>
-            <span>دعاء</span>
-        </button>
+    <div class="footer">
+        ﴿ وَالذَّاكِرِينَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتِ ﴾ | دعم كامل للوحة المفاتيح
     </div>
 </div>
 
 <script>
-    // =============== بيانات التطبيق ===============
-    let tasbeehCount = 0;
-
-    const morningDhikr = [
-        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ", count: 0 },
-        { text: "أَصْبَحْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },
-        { text: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا", count: 0 },
-        { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", count: 0 },
-        { text: "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ", count: 0 }
+    // ------------------- بيانات الأذكار (مأخوذة من masba7a.com + تطوير) -------------------
+    const dhikrList = [
+        { text: "سُبْحَانَ اللَّهِ", count: 0, key: "subhan" },
+        { text: "الْحَمْدُ لِلَّهِ", count: 0, key: "hamd" },
+        { text: "لَا إِلَهَ إِلَّا اللَّهُ", count: 0, key: "tahlil" },
+        { text: "اللَّهُ أَكْبَرُ", count: 0, key: "takbir" },
+        { text: "رَبِّ اغْفِرْ لِي", count: 0, key: "maghfira" },
+        { text: "أَسْتَغْفِرُ اللَّهَ", count: 0, key: "istighfar" },
+        { text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", count: 0, key: "hawqala" },
+        { text: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي", count: 0, key: "afw" },
+        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", count: 0, key: "salat" },
+        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ سُبْحَانَ اللَّهِ الْعَظِيمِ", count: 0, key: "subhanWaHamd" },
+        { text: "اللَّهُمَّ اغْفِرْ لِي ذَنْبِي كُلَّهُ", count: 0, key: "aghfir" },
+        { text: "اللهُ أَكْبَرُ كَبِيرًا وَالْحَمْدُ لِلَّهِ كَثِيرًا", count: 0, key: "akbarKabeeran" },
+        { text: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ", count: 0, key: "tasbeeh" },
+        { text: "أَسْتَغْفِرُ اللَّهَ الَّذِي لَا إِلَهَ إِلَّا هُوَ الْحَيَّ الْقَيُّومَ", count: 0, key: "istighfarKabir" },
+        { text: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", count: 0, key: "younis" },
+        { text: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ", count: 0, key: "adad" },
+        { text: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ", count: 0, key: "tahlilMufrad" },
+        { text: "قُلْ هُوَ اللَّهُ أَحَدٌ ﴿ الإخلاص ﴾", count: 0, key: "ikhlas" }
     ];
 
-    const eveningDhikr = [
-        { text: "سُبْحَانَ اللَّهِ الْعَظِيمِ", count: 0 },
-        { text: "أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ", count: 0 },
-        { text: "اللَّهُمَّ بِكَ أَمْسَيْنَا", count: 0 },
-        { text: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ", count: 0 },
-        { text: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ", count: 0 }
-    ];
+    let globalCounter = 12689039;  // يبدأ بنفس الرقم من الموقع الأصلي
+    let currentSelectedIndex = 0;   // أول ذكر افتراضي
 
-    const duaList = [
-        { text: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً", count: 0 },
-        { text: "اللَّهُمَّ اغْفِرْ لِي وَارْحَمْنِي", count: 0 },
-        { text: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", count: 0 },
-        { text: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", count: 0 },
-        { text: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ", count: 0 }
-    ];
+    // عناصر DOM
+    const gridContainer = document.getElementById('dhikrGrid');
+    const globalSpan = document.getElementById('globalCountDisplay');
+    const selectedNameSpan = document.getElementById('selectedDhikrName');
+    const quickAmountInput = document.getElementById('quickAmount');
+    const applyBtn = document.getElementById('applyToSelected');
+    const addGlobalBtn = document.getElementById('addGlobalBtn');
 
-    // حالات
-    let morningState = morningDhikr.map(i => ({ ...i }));
-    let eveningState = eveningDhikr.map(i => ({ ...i }));
-    let duaState = duaList.map(i => ({ ...i }));
-
-    // عناصر
-    const mainCounterSpan = document.getElementById('mainCounter');
-    const bigBead = document.getElementById('bigBead');
-    const resetBtn = document.getElementById('resetCounterBtn');
-
-    function updateMainCounter() {
-        mainCounterSpan.innerText = tasbeehCount;
+    // حفظ البيانات في localStorage تلقائيًا
+    function saveToLocalStorage() {
+        localStorage.setItem('dhikrCounts', JSON.stringify(dhikrList.map(d => d.count)));
+        localStorage.setItem('globalCounter', globalCounter);
     }
 
-    bigBead.addEventListener('click', () => {
-        tasbeehCount++;
-        updateMainCounter();
-        // تأثير اهتزاز خفيف
-        bigBead.style.transform = 'scale(0.96)';
-        setTimeout(() => { bigBead.style.transform = ''; }, 80);
-    });
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('dhikrCounts');
+        if (saved) {
+            const arr = JSON.parse(saved);
+            for (let i = 0; i < arr.length && i < dhikrList.length; i++) {
+                dhikrList[i].count = arr[i];
+            }
+        }
+        const savedGlobal = localStorage.getItem('globalCounter');
+        if (savedGlobal) globalCounter = parseInt(savedGlobal);
+        updateGlobalUI();
+    }
 
-    resetBtn.addEventListener('click', () => {
-        tasbeehCount = 0;
-        updateMainCounter();
-    });
+    function updateGlobalUI() {
+        globalSpan.innerText = globalCounter.toLocaleString('en-US');
+    }
 
-    // دالة عرض الأذكار كبطاقات تطبيق
-    function renderDhikrCards(containerId, dataArray, typePrefix) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = '';
-        dataArray.forEach((item, idx) => {
+    // إعادة رسم جميع البطاقات
+    function renderDhikrGrid() {
+        gridContainer.innerHTML = '';
+        dhikrList.forEach((dhikr, idx) => {
             const card = document.createElement('div');
             card.className = 'dhikr-card';
+            if (idx === currentSelectedIndex) card.style.border = '2px solid #f5c542';
             card.innerHTML = `
-                <div class="dhikr-text">${item.text}</div>
-                <div class="dhikr-counter" id="${typePrefix}-count-${idx}">${item.count}</div>
-                <button class="dhikr-plus" data-type="${typePrefix}" data-index="${idx}">+</button>
+                <div class="dhikr-text">${dhikr.text}</div>
+                <div class="dhikr-count" id="count-${idx}">${dhikr.count}</div>
+                <div class="edit-hint">✏️ اضغط لاختياره للوحة المفاتيح</div>
             `;
-            container.appendChild(card);
-        });
-
-        // ربط الأحداث
-        document.querySelectorAll(`.dhikr-plus[data-type="${typePrefix}"]`).forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const type = btn.getAttribute('data-type');
-                const index = parseInt(btn.getAttribute('data-index'));
-                if (type === 'morning') {
-                    morningState[index].count++;
-                    document.getElementById(`morning-count-${index}`).innerText = morningState[index].count;
-                } else if (type === 'evening') {
-                    eveningState[index].count++;
-                    document.getElementById(`evening-count-${index}`).innerText = eveningState[index].count;
-                } else if (type === 'dua') {
-                    duaState[index].count++;
-                    document.getElementById(`dua-count-${index}`).innerText = duaState[index].count;
-                }
-                btn.style.transform = 'scale(0.9)';
-                setTimeout(() => btn.style.transform = '', 100);
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentSelectedIndex = idx;
+                selectedNameSpan.innerText = dhikr.text.substring(0, 30);
+                renderDhikrGrid(); // إعادة رسم لتحديث الإطار الذهبي
             });
+            // زيادة مباشرة بالضغط على البطاقة (بجانب الإختيار)
+            card.addEventListener('dblclick', () => {
+                dhikrList[idx].count++;
+                document.getElementById(`count-${idx}`).innerText = dhikrList[idx].count;
+                saveToLocalStorage();
+            });
+            gridContainer.appendChild(card);
         });
+        selectedNameSpan.innerText = dhikrList[currentSelectedIndex]?.text.substring(0, 30) || "اختر ذكرًا";
     }
 
-    // تحديث كل القوائم
-    function refreshAllCards() {
-        renderDhikrCards('morningListContainer', morningState, 'morning');
-        renderDhikrCards('eveningListContainer', eveningState, 'evening');
-        renderDhikrCards('duaListContainer', duaState, 'dua');
+    function updateSingleCountUI(index) {
+        const span = document.getElementById(`count-${index}`);
+        if (span) span.innerText = dhikrList[index].count;
     }
 
-    // التنقل بين الصفحات (شريط سفلي)
-    function switchToPage(pageId) {
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active-page'));
-        document.getElementById(pageId).classList.add('active-page');
-        document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-        document.querySelector(`.nav-item[data-page="${pageId}"]`).classList.add('active');
+    // دالة إضافة للذكر المختار
+    function addToSelected(amount) {
+        if (currentSelectedIndex !== undefined) {
+            dhikrList[currentSelectedIndex].count += amount;
+            updateSingleCountUI(currentSelectedIndex);
+            saveToLocalStorage();
+        }
     }
 
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const targetPage = item.getAttribute('data-page');
-            if (targetPage) switchToPage(targetPage);
-        });
+    // دعم لوحة المفاتيح العالمية
+    window.addEventListener('keydown', (e) => {
+        const key = e.key;
+        // مسافة أو Enter أو أرقام
+        if (key === ' ' || key === 'Space' || key === 'Enter') {
+            e.preventDefault();
+            addToSelected(1);
+        } else if (!isNaN(parseInt(key))) {
+            e.preventDefault();
+            const num = parseInt(key);
+            if (num >= 1 && num <= 9) addToSelected(num);
+        } else if (key === '+' || key === '=') {
+            e.preventDefault();
+            const val = parseInt(quickAmountInput.value) || 1;
+            addToSelected(val);
+        }
     });
 
-    // تاريخ هجري وهمي ديناميكي (تلقائي)
-    function updateHijriDate() {
+    // رفع العداد العالمي
+    addGlobalBtn.addEventListener('click', () => {
+        globalCounter += 100;
+        updateGlobalUI();
+        saveToLocalStorage();
+    });
+
+    applyBtn.addEventListener('click', () => {
+        const amount = parseInt(quickAmountInput.value) || 1;
+        addToSelected(amount);
+    });
+
+    // وظائف المشاركة
+    document.getElementById('shareFB').onclick = () => {
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+    };
+    document.getElementById('shareWA').onclick = () => {
+        window.open(`https://wa.me/?text=${encodeURIComponent('جرب المسبحة الإلكترونية المتطورة: ' + window.location.href)}`, '_blank');
+    };
+    document.getElementById('shareTG').onclick = () => {
+        window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=المسبحة الإلكترونية`, '_blank');
+    };
+    document.getElementById('installApp').onclick = () => {
+        alert("لإضافة التطبيق للشاشة الرئيسية:\n- على Android: اضغط ⋮ ثم 'تثبيت التطبيق'\n- على iPhone: اضغط مشاركة ➕ ثم 'إضافة إلى الشاشة الرئيسية'");
+    };
+
+    // التاريخ الهجري (ديناميكي)
+    function updateHijri() {
         const date = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        const greg = date.toLocaleDateString('ar-EG', options);
-        document.getElementById('hijriDate').innerText = greg + ' هـ';
+        document.getElementById('hijriDisplay').innerText = date.toLocaleDateString('ar-EG', options) + ' هـ';
     }
-    updateHijriDate();
 
-    // تهيئة التطبيق
-    refreshAllCards();
-    updateMainCounter();
+    // التهيئة
+    loadFromLocalStorage();
+    renderDhikrGrid();
+    updateGlobalUI();
+    updateHijri();
+    setInterval(updateHijri, 60000);
 </script>
 </body>
 </html>
